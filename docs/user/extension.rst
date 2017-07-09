@@ -308,9 +308,8 @@ And its usage:
 .. code-block:: python
 
     client = Client(...)
-
-    forwarding = forward("bottom-legacy", "bottom-dev")
-    client.raw_handlers.insert(0, forwarding)
+    client.raw_handlers.insert(
+        0, forward("bottom-legacy", "bottom-dev"))
 
 Full message encryption
 -----------------------
