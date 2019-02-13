@@ -209,7 +209,7 @@ def unpack_command(msg: str) -> Tuple[str, Dict[str, Any]]:
     command = synonym(command)
     kwargs = {}  # type: Dict[str, Any]
 
-    if command in ["PING", "ERR_NOMOTD"]:
+    if command in ["PING", "ERR_NOMOTD", "RPL_LISTEND"]:
         kwargs["message"] = params[-1]
 
     elif command in ["PRIVMSG", "NOTICE"]:
@@ -315,6 +315,11 @@ def unpack_command(msg: str) -> Tuple[str, Dict[str, Any]]:
             command = "USERMODE"
             kwargs["nick"] = params[0]
             kwargs["modes"] = params[1]
+
+    elif command in ["RPL_LIST"]:
+        kwargs["channel"] = params[1]
+        kwargs["users"] = params[2]
+        kwargs["description"] = params[3]
 
     else:
         raise ValueError("Unknown command '{}'".format(command))
